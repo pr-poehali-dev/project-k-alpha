@@ -134,11 +134,25 @@ const Index = () => {
     setPluginsOpen(true);
   };
 
-  const [installedPlugins] = useState([
+  const [installedPlugins, setInstalledPlugins] = useState([
     { name: 'EssentialsX', version: '2.20.1', enabled: true, description: 'Основные команды и функции' },
     { name: 'WorldEdit', version: '7.2.15', enabled: true, description: 'Редактор мира' },
     { name: 'LuckPerms', version: '5.4.102', enabled: true, description: 'Система прав' }
   ]);
+
+  const togglePlugin = (pluginName: string) => {
+    setInstalledPlugins(prev => 
+      prev.map(plugin => 
+        plugin.name === pluginName 
+          ? { ...plugin, enabled: !plugin.enabled }
+          : plugin
+      )
+    );
+    const plugin = installedPlugins.find(p => p.name === pluginName);
+    if (plugin) {
+      toast.success(`Плагин ${pluginName} ${plugin.enabled ? 'выключен' : 'включен'}`);
+    }
+  };
 
   const [availablePlugins] = useState([
     { name: 'Vault', version: '1.7.3', downloads: '15M', description: 'Экономика и права' },
@@ -1012,6 +1026,14 @@ const Index = () => {
                             </p>
                           </div>
                           <div className="flex gap-2 ml-4">
+                            <Button 
+                              size="sm" 
+                              variant={plugin.enabled ? "default" : "outline"}
+                              className="pixel-corners text-xs"
+                              onClick={() => togglePlugin(plugin.name)}
+                            >
+                              <Icon name={plugin.enabled ? "Power" : "PowerOff"} className="h-3 w-3" />
+                            </Button>
                             <Button size="sm" variant="outline" className="pixel-corners text-xs">
                               <Icon name="Settings" className="h-3 w-3" />
                             </Button>
