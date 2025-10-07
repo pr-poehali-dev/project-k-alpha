@@ -33,7 +33,7 @@ const Index = () => {
       status: 'online',
       players: 2999,
       maxPlayers: 7500,
-      plan: 'Unlimited',
+      plan: 'ВСЁ или НИЧЕГО',
       ip: 'mc.EzFunTimeEz.ru:25565',
       build: 'Spigot'
     }
