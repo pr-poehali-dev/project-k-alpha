@@ -40,6 +40,7 @@ const Index = () => {
   const [serverName, setServerName] = useState('');
   const [selectedVersion, setSelectedVersion] = useState('1.20.4');
   const [selectedBuild, setSelectedBuild] = useState('Vanilla');
+  const [customBuildUrl, setCustomBuildUrl] = useState('');
   const [consoleOpen, setConsoleOpen] = useState(false);
   const [filesOpen, setFilesOpen] = useState(false);
   const [currentServerId, setCurrentServerId] = useState<string | null>(null);
@@ -208,14 +209,18 @@ const Index = () => {
         </div>
 
         <Tabs defaultValue="create" className="max-w-4xl mx-auto">
-          <TabsList className="grid w-full grid-cols-2 mb-8">
+          <TabsList className="grid w-full grid-cols-3 mb-8">
             <TabsTrigger value="create" className="font-pixel text-xs md:text-sm">
               <Icon name="Plus" className="mr-2 h-4 w-4" />
-              Создать сервер
+              Создать
             </TabsTrigger>
             <TabsTrigger value="servers" className="font-pixel text-xs md:text-sm">
               <Icon name="Server" className="mr-2 h-4 w-4" />
-              Мои серверы ({servers.length})
+              Серверы ({servers.length})
+            </TabsTrigger>
+            <TabsTrigger value="stats" className="font-pixel text-xs md:text-sm">
+              <Icon name="BarChart3" className="mr-2 h-4 w-4" />
+              Статистика
             </TabsTrigger>
           </TabsList>
 
@@ -267,9 +272,25 @@ const Index = () => {
                       <SelectItem value="Forge">Forge (моды)</SelectItem>
                       <SelectItem value="Fabric">Fabric (моды)</SelectItem>
                       <SelectItem value="Purpur">Purpur</SelectItem>
+                      <SelectItem value="Custom">🔧 Своя сборка</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
+
+                {selectedBuild === 'Custom' && (
+                  <div className="space-y-2 animate-fade-in">
+                    <label className="text-sm font-medium">Ссылка на .jar файл</label>
+                    <Input
+                      placeholder="https://example.com/server.jar"
+                      value={customBuildUrl}
+                      onChange={(e) => setCustomBuildUrl(e.target.value)}
+                      className="pixel-corners font-mono text-sm"
+                    />
+                    <p className="text-xs text-muted-foreground">
+                      ⚠️ Укажи прямую ссылку на скачивание JAR-файла сервера
+                    </p>
+                  </div>
+                )}
 
                 <div className="bg-muted p-4 rounded-lg pixel-corners">
                   <h3 className="font-pixel text-xs mb-3">Бесплатный тариф включает:</h3>
@@ -408,6 +429,138 @@ const Index = () => {
                   </Card>
                 ))
               )}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="stats">
+            <div className="space-y-6">
+              <Card className="pixel-corners minecraft-shadow">
+                <CardHeader>
+                  <CardTitle className="font-pixel text-xl">Статистика сервера</CardTitle>
+                  <CardDescription>
+                    Мониторинг ресурсов и онлайна в реальном времени
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <Card className="pixel-corners bg-muted/50">
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center justify-between">
+                          <CardTitle className="text-sm font-medium">Процессор</CardTitle>
+                          <Icon name="Cpu" className="h-4 w-4 text-muted-foreground" />
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-2xl font-bold font-pixel">24%</div>
+                        <div className="mt-2 h-2 bg-background rounded-full overflow-hidden">
+                          <div className="h-full bg-primary" style={{ width: '24%' }}></div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="pixel-corners bg-muted/50">
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center justify-between">
+                          <CardTitle className="text-sm font-medium">Оперативная память</CardTitle>
+                          <Icon name="MemoryStick" className="h-4 w-4 text-muted-foreground" />
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-2xl font-bold font-pixel">1.2/2 GB</div>
+                        <div className="mt-2 h-2 bg-background rounded-full overflow-hidden">
+                          <div className="h-full bg-accent" style={{ width: '60%' }}></div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="pixel-corners bg-muted/50">
+                      <CardHeader className="pb-3">
+                        <div className="flex items-center justify-between">
+                          <CardTitle className="text-sm font-medium">Онлайн игроков</CardTitle>
+                          <Icon name="Users" className="h-4 w-4 text-muted-foreground" />
+                        </div>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="text-2xl font-bold font-pixel">3/2999</div>
+                        <div className="mt-2 h-2 bg-background rounded-full overflow-hidden">
+                          <div className="h-full bg-primary" style={{ width: '0.1%' }}></div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+
+                  <Card className="pixel-corners bg-muted/50">
+                    <CardHeader>
+                      <CardTitle className="text-sm font-medium">График онлайна (24 часа)</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="h-48 flex items-end justify-between gap-1">
+                        {[2, 5, 3, 7, 4, 8, 6, 9, 5, 12, 8, 15, 10, 13, 9, 11, 7, 5, 3, 6, 4, 2, 3, 1].map((value, index) => (
+                          <div 
+                            key={index}
+                            className="flex-1 bg-primary rounded-t pixel-corners hover:bg-primary/80 transition-all cursor-pointer"
+                            style={{ height: `${(value / 15) * 100}%` }}
+                            title={`${value} игроков`}
+                          />
+                        ))}
+                      </div>
+                      <div className="flex justify-between mt-2 text-xs text-muted-foreground">
+                        <span>00:00</span>
+                        <span>06:00</span>
+                        <span>12:00</span>
+                        <span>18:00</span>
+                        <span>24:00</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Card className="pixel-corners bg-muted/50">
+                      <CardHeader>
+                        <CardTitle className="text-sm font-medium flex items-center gap-2">
+                          <Icon name="Activity" className="h-4 w-4" />
+                          Активность
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Время работы:</span>
+                          <span className="font-semibold">24 часа 12 мин</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Последний рестарт:</span>
+                          <span className="font-semibold">Вчера, 15:30</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">TPS:</span>
+                          <span className="font-semibold text-primary">20.0</span>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="pixel-corners bg-muted/50">
+                      <CardHeader>
+                        <CardTitle className="text-sm font-medium flex items-center gap-2">
+                          <Icon name="HardDrive" className="h-4 w-4" />
+                          Хранилище
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-muted-foreground">Использовано:</span>
+                          <span className="font-semibold">3.2 GB / 10 GB</span>
+                        </div>
+                        <div className="h-2 bg-background rounded-full overflow-hidden">
+                          <div className="h-full bg-accent" style={{ width: '32%' }}></div>
+                        </div>
+                        <div className="flex justify-between text-xs text-muted-foreground">
+                          <span>Свободно: 6.8 GB</span>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </TabsContent>
         </Tabs>
