@@ -213,6 +213,10 @@ const Index = () => {
                       <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
                       <span>24/7 онлайн сервера</span>
                     </li>
+                    <li className="flex items-start gap-2">
+                      <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                      <span>Доступ к консоли</span>
+                    </li>
                   </ul>
                 </div>
 
