@@ -653,8 +653,8 @@ const Index = () => {
                             <span>Все дополнения бесплатно</span>
                           </div>
                         </div>
-                        <Button variant="outline" className="w-full pixel-corners mt-4" disabled>
-                          Текущий план
+                        <Button variant="outline" className="w-full pixel-corners mt-4">
+                          Перейти на Unlimited
                         </Button>
                       </CardContent>
                     </Card>
@@ -703,9 +703,9 @@ const Index = () => {
                             <span>Все дополнения + кастомные настройки</span>
                           </div>
                         </div>
-                        <Button className="w-full pixel-corners minecraft-shadow mt-4 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700" onClick={() => navigate('/payment')}>
-                          <Icon name="Sparkles" className="mr-2 h-4 w-4" />
-                          Перейти на ВСЁ или НИЧЕГО
+                        <Button className="w-full pixel-corners minecraft-shadow mt-4 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700" disabled>
+                          <Icon name="Crown" className="mr-2 h-4 w-4" />
+                          Текущий план
                         </Button>
                       </CardContent>
                     </Card>
