@@ -17,6 +17,7 @@ interface Server {
   maxPlayers: number;
   plan: string;
   ip: string;
+  build: string;
 }
 
 const Index = () => {
@@ -29,12 +30,14 @@ const Index = () => {
       players: 3,
       maxPlayers: 2999,
       plan: 'Бесплатный',
-      ip: 'mc.server-1.ru:25565'
+      ip: 'mc.server-1.ru:25565',
+      build: 'Vanilla'
     }
   ]);
 
   const [serverName, setServerName] = useState('');
   const [selectedVersion, setSelectedVersion] = useState('1.20.4');
+  const [selectedBuild, setSelectedBuild] = useState('Vanilla');
 
   const createServer = () => {
     if (!serverName.trim()) {
@@ -50,7 +53,8 @@ const Index = () => {
       players: 0,
       maxPlayers: 2999,
       plan: 'Бесплатный',
-      ip: `mc.server-${Date.now()}.ru:25565`
+      ip: `mc.server-${Date.now()}.ru:25565`,
+      build: selectedBuild
     };
 
     setServers([...servers, newServer]);
@@ -88,6 +92,10 @@ const Index = () => {
   const copyIpAddress = (ip: string) => {
     navigator.clipboard.writeText(ip);
     toast.success('IP адрес скопирован!');
+  };
+
+  const openConsole = (serverId: string) => {
+    toast.info('Консоль сервера открывается...');
   };
 
   return (
@@ -190,6 +198,23 @@ const Index = () => {
                   </Select>
                 </div>
 
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Сборка сервера</label>
+                  <Select value={selectedBuild} onValueChange={setSelectedBuild}>
+                    <SelectTrigger className="pixel-corners">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Vanilla">Vanilla (чистый)</SelectItem>
+                      <SelectItem value="Spigot">Spigot</SelectItem>
+                      <SelectItem value="Paper">Paper</SelectItem>
+                      <SelectItem value="Forge">Forge (моды)</SelectItem>
+                      <SelectItem value="Fabric">Fabric (моды)</SelectItem>
+                      <SelectItem value="Purpur">Purpur</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
                 <div className="bg-muted p-4 rounded-lg pixel-corners">
                   <h3 className="font-pixel text-xs mb-3">Бесплатный тариф включает:</h3>
                   <ul className="space-y-2 text-sm">
@@ -256,7 +281,7 @@ const Index = () => {
                               {getStatusText(server.status)}
                             </Badge>
                           </div>
-                          <CardDescription>Версия {server.version} • {server.plan}</CardDescription>
+                          <CardDescription>Версия {server.version} • {server.build} • {server.plan}</CardDescription>
                         </div>
                       </div>
                     </CardHeader>
@@ -290,10 +315,21 @@ const Index = () => {
                       
                       <div className="flex gap-2">
                         {server.status === 'online' && (
-                          <Button variant="outline" size="sm" className="pixel-corners flex-1">
-                            <Icon name="Settings" className="mr-2 h-4 w-4" />
-                            Настройки
-                          </Button>
+                          <>
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              className="pixel-corners flex-1"
+                              onClick={() => openConsole(server.id)}
+                            >
+                              <Icon name="Terminal" className="mr-2 h-4 w-4" />
+                              Консоль
+                            </Button>
+                            <Button variant="outline" size="sm" className="pixel-corners flex-1">
+                              <Icon name="Settings" className="mr-2 h-4 w-4" />
+                              Настройки
+                            </Button>
+                          </>
                         )}
                         <Button 
                           variant="destructive" 
