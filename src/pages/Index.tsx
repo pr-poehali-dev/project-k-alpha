@@ -27,13 +27,13 @@ const Index = () => {
     {
       id: '1',
       name: 'Мой сервер выживания',
-      version: '1.20.4',
+      version: '1.19.4',
       status: 'online',
       players: 3,
       maxPlayers: 99999,
       plan: 'Unlimited',
       ip: 'mc.EzFunTimeEz.ru',
-      build: 'Vanilla'
+      build: 'Spigot'
     }
   ]);
 
