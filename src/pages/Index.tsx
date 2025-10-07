@@ -26,7 +26,7 @@ const Index = () => {
       version: '1.20.4',
       status: 'online',
       players: 3,
-      maxPlayers: 20,
+      maxPlayers: 2999,
       plan: 'Бесплатный'
     }
   ]);
@@ -46,7 +46,7 @@ const Index = () => {
       version: selectedVersion,
       status: 'starting',
       players: 0,
-      maxPlayers: 20,
+      maxPlayers: 2999,
       plan: 'Бесплатный'
     };
 
@@ -187,7 +187,7 @@ const Index = () => {
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-start gap-2">
                       <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
-                      <span>До 20 игроков одновременно</span>
+                      <span>До 2999 игроков одновременно</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
