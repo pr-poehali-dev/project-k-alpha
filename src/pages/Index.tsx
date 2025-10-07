@@ -496,7 +496,7 @@ const Index = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-5 gap-6">
                     <Card className="pixel-corners border-2 border-muted hover:border-primary transition-all">
                       <CardHeader>
                         <div className="text-4xl mb-2">🎁</div>
@@ -568,7 +568,7 @@ const Index = () => {
                             <span>Свой домен</span>
                           </div>
                         </div>
-                        <Button className="w-full pixel-corners minecraft-shadow mt-4">
+                        <Button className="w-full pixel-corners minecraft-shadow mt-4" onClick={() => navigate('/payment')}>
                           Перейти на Pro
                         </Button>
                       </CardContent>
@@ -607,7 +607,7 @@ const Index = () => {
                             <span>Выделенный IP</span>
                           </div>
                         </div>
-                        <Button variant="outline" className="w-full pixel-corners mt-4">
+                        <Button variant="outline" className="w-full pixel-corners mt-4" onClick={() => navigate('/payment')}>
                           Перейти на Premium
                         </Button>
                       </CardContent>
@@ -655,6 +655,57 @@ const Index = () => {
                         </div>
                         <Button variant="outline" className="w-full pixel-corners mt-4" disabled>
                           Текущий план
+                        </Button>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="pixel-corners border-4 border-yellow-600 minecraft-shadow relative overflow-hidden bg-gradient-to-br from-yellow-500/10 to-orange-500/10">
+                      <div className="absolute top-0 right-0 bg-gradient-to-r from-yellow-600 to-orange-600 text-white px-3 py-1 text-xs font-pixel animate-pulse">
+                        🔥 НОВЫЙ
+                      </div>
+                      <CardHeader>
+                        <div className="text-4xl mb-2">🚀</div>
+                        <CardTitle className="font-pixel text-lg">ВСЁ или НИЧЕГО</CardTitle>
+                        <CardDescription className="text-3xl font-bold mt-2 text-yellow-600">5999 ₽/мес</CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <div className="space-y-2 text-sm">
+                          <div className="flex items-start gap-2">
+                            <Icon name="Zap" className="h-4 w-4 text-yellow-600 mt-0.5" />
+                            <span className="font-bold">999 игроков одновременно</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Zap" className="h-4 w-4 text-yellow-600 mt-0.5" />
+                            <span className="font-bold">999 GB RAM</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Zap" className="h-4 w-4 text-yellow-600 mt-0.5" />
+                            <span className="font-bold">999 GB NVMe диск</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Zap" className="h-4 w-4 text-yellow-600 mt-0.5" />
+                            <span className="font-bold">90% CPU мощности</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Zap" className="h-4 w-4 text-yellow-600 mt-0.5" />
+                            <span>Персональный менеджер</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Zap" className="h-4 w-4 text-yellow-600 mt-0.5" />
+                            <span>Бэкапы каждые 30 минут</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Zap" className="h-4 w-4 text-yellow-600 mt-0.5" />
+                            <span>Выделенный сервер с приоритетом</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Zap" className="h-4 w-4 text-yellow-600 mt-0.5" />
+                            <span>Все дополнения + кастомные настройки</span>
+                          </div>
+                        </div>
+                        <Button className="w-full pixel-corners minecraft-shadow mt-4 bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-700 hover:to-orange-700" onClick={() => navigate('/payment')}>
+                          <Icon name="Sparkles" className="mr-2 h-4 w-4" />
+                          Перейти на ВСЁ или НИЧЕГО
                         </Button>
                       </CardContent>
                     </Card>

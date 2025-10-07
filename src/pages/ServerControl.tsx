@@ -293,7 +293,7 @@ const ServerControl = () => {
             <Card className="pixel-corners minecraft-shadow">
               <CardHeader>
                 <CardTitle className="font-pixel">👥 Игроки онлайн ({onlinePlayers.length})</CardTitle>
-                <CardDescription>Управление игроками на сервере</CardDescription>
+                <CardDescription>Управление игроками, донатами и правами</CardDescription>
               </CardHeader>
               <CardContent>
                 <ScrollArea className="h-[500px]">
@@ -301,7 +301,7 @@ const ServerControl = () => {
                     {onlinePlayers.map((player, index) => (
                       <Card key={index} className="pixel-corners bg-muted/30">
                         <CardContent className="p-4">
-                          <div className="flex items-center justify-between">
+                          <div className="flex items-center justify-between flex-wrap gap-3">
                             <div className="flex items-center gap-3">
                               <div className="w-10 h-10 bg-primary/20 rounded pixel-corners flex items-center justify-center">
                                 <Icon name="User" className="h-5 w-5" />
@@ -313,14 +313,42 @@ const ServerControl = () => {
                                 </p>
                               </div>
                             </div>
-                            <div className="flex gap-2">
-                              <Button size="sm" variant="outline" className="pixel-corners text-xs">
-                                <Icon name="MessageSquare" className="h-3 w-3 mr-1" />
-                                Сообщение
+                            <div className="flex gap-2 flex-wrap">
+                              <Button 
+                                size="sm" 
+                                variant="outline" 
+                                className="pixel-corners text-xs"
+                                onClick={() => toast.success(`Донат выдан игроку ${player.name}`)}
+                              >
+                                <Icon name="Gift" className="h-3 w-3 mr-1" />
+                                Выдать донат
                               </Button>
-                              <Button size="sm" variant="outline" className="pixel-corners text-xs">
+                              <Button 
+                                size="sm" 
+                                variant="outline" 
+                                className="pixel-corners text-xs"
+                                onClick={() => toast.success(`OP выдан игроку ${player.name}`)}
+                              >
+                                <Icon name="Crown" className="h-3 w-3 mr-1" />
+                                Выдать OP
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                variant="destructive" 
+                                className="pixel-corners text-xs"
+                                onClick={() => toast.success(`Игрок ${player.name} забанен`)}
+                              >
                                 <Icon name="Ban" className="h-3 w-3 mr-1" />
-                                Кик
+                                Бан
+                              </Button>
+                              <Button 
+                                size="sm" 
+                                variant="outline" 
+                                className="pixel-corners text-xs"
+                                onClick={() => toast.success(`Игрок ${player.name} разбанен`)}
+                              >
+                                <Icon name="Check" className="h-3 w-3 mr-1" />
+                                Разбан
                               </Button>
                             </div>
                           </div>
@@ -336,8 +364,31 @@ const ServerControl = () => {
           <TabsContent value="plugins">
             <Card className="pixel-corners minecraft-shadow">
               <CardHeader>
-                <CardTitle className="font-pixel">🧩 Установленные плагины ({installedPlugins.length})</CardTitle>
-                <CardDescription>Управление плагинами сервера</CardDescription>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <CardTitle className="font-pixel">🧩 Установленные плагины ({installedPlugins.length})</CardTitle>
+                    <CardDescription>Управление плагинами и сборками сервера</CardDescription>
+                  </div>
+                  <Button 
+                    className="pixel-corners minecraft-shadow"
+                    onClick={() => {
+                      const input = document.createElement('input');
+                      input.type = 'file';
+                      input.accept = '.jar,.zip';
+                      input.onchange = (e: any) => {
+                        const file = e.target.files[0];
+                        if (file) {
+                          toast.success(`Сборка ${file.name} загружается...`);
+                          setTimeout(() => toast.success('Сборка успешно загружена!'), 1500);
+                        }
+                      };
+                      input.click();
+                    }}
+                  >
+                    <Icon name="Upload" className="h-4 w-4 mr-2" />
+                    Загрузить сборку
+                  </Button>
+                </div>
               </CardHeader>
               <CardContent>
                 <ScrollArea className="h-[500px]">
