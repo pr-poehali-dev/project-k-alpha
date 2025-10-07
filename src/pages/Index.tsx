@@ -16,6 +16,7 @@ interface Server {
   players: number;
   maxPlayers: number;
   plan: string;
+  ip: string;
 }
 
 const Index = () => {
@@ -27,7 +28,8 @@ const Index = () => {
       status: 'online',
       players: 3,
       maxPlayers: 2999,
-      plan: 'Бесплатный'
+      plan: 'Бесплатный',
+      ip: 'mc.server-1.ru:25565'
     }
   ]);
 
@@ -47,7 +49,8 @@ const Index = () => {
       status: 'starting',
       players: 0,
       maxPlayers: 2999,
-      plan: 'Бесплатный'
+      plan: 'Бесплатный',
+      ip: `mc.server-${Date.now()}.ru:25565`
     };
 
     setServers([...servers, newServer]);
@@ -80,6 +83,11 @@ const Index = () => {
       case 'offline': return 'Остановлен';
       case 'starting': return 'Запускается';
     }
+  };
+
+  const copyIpAddress = (ip: string) => {
+    navigator.clipboard.writeText(ip);
+    toast.success('IP адрес скопирован!');
   };
 
   return (
@@ -252,18 +260,32 @@ const Index = () => {
                         </div>
                       </div>
                       
+                      {server.status === 'online' && (
+                        <div className="bg-muted p-3 rounded-lg pixel-corners mb-4">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="text-xs text-muted-foreground mb-1">IP адрес сервера:</p>
+                              <p className="font-mono font-semibold">{server.ip}</p>
+                            </div>
+                            <Button 
+                              variant="default" 
+                              size="sm" 
+                              className="pixel-corners minecraft-shadow"
+                              onClick={() => copyIpAddress(server.ip)}
+                            >
+                              <Icon name="Copy" className="mr-2 h-4 w-4" />
+                              Копировать
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                      
                       <div className="flex gap-2">
                         {server.status === 'online' && (
-                          <>
-                            <Button variant="outline" size="sm" className="pixel-corners flex-1">
-                              <Icon name="Copy" className="mr-2 h-4 w-4" />
-                              IP адрес
-                            </Button>
-                            <Button variant="outline" size="sm" className="pixel-corners flex-1">
-                              <Icon name="Settings" className="mr-2 h-4 w-4" />
-                              Настройки
-                            </Button>
-                          </>
+                          <Button variant="outline" size="sm" className="pixel-corners flex-1">
+                            <Icon name="Settings" className="mr-2 h-4 w-4" />
+                            Настройки
+                          </Button>
                         )}
                         <Button 
                           variant="destructive" 
