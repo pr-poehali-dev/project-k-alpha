@@ -41,6 +41,7 @@ const Index = () => {
   const [selectedVersion, setSelectedVersion] = useState('1.20.4');
   const [selectedBuild, setSelectedBuild] = useState('Vanilla');
   const [consoleOpen, setConsoleOpen] = useState(false);
+  const [filesOpen, setFilesOpen] = useState(false);
   const [currentServerId, setCurrentServerId] = useState<string | null>(null);
   const [consoleCommand, setConsoleCommand] = useState('');
   const [consoleLog, setConsoleLog] = useState<string[]>([
@@ -48,6 +49,16 @@ const Index = () => {
     '[Server] Loading world...',
     '[Server] Server started successfully!',
     '[Server] Ready for players on port 25565'
+  ]);
+  const [currentPath, setCurrentPath] = useState('/');
+  const [files] = useState([
+    { name: 'server.properties', type: 'file', size: '2.4 KB', modified: '10 мин назад' },
+    { name: 'world', type: 'folder', size: '—', modified: '1 час назад' },
+    { name: 'plugins', type: 'folder', size: '—', modified: '2 часа назад' },
+    { name: 'logs', type: 'folder', size: '—', modified: '5 мин назад' },
+    { name: 'ops.json', type: 'file', size: '128 B', modified: '3 часа назад' },
+    { name: 'whitelist.json', type: 'file', size: '64 B', modified: '3 часа назад' },
+    { name: 'banned-players.json', type: 'file', size: '32 B', modified: '1 день назад' },
   ]);
 
   const createServer = () => {
@@ -108,6 +119,12 @@ const Index = () => {
   const openConsole = (serverId: string) => {
     setCurrentServerId(serverId);
     setConsoleOpen(true);
+  };
+
+  const openFiles = (serverId: string) => {
+    setCurrentServerId(serverId);
+    setFilesOpen(true);
+    setCurrentPath('/');
   };
 
   const executeCommand = () => {
@@ -358,15 +375,23 @@ const Index = () => {
                             <Button 
                               variant="outline" 
                               size="sm" 
-                              className="pixel-corners flex-1"
+                              className="pixel-corners"
                               onClick={() => openConsole(server.id)}
                             >
                               <Icon name="Terminal" className="mr-2 h-4 w-4" />
                               Консоль
                             </Button>
-                            <Button variant="outline" size="sm" className="pixel-corners flex-1">
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              className="pixel-corners"
+                              onClick={() => openFiles(server.id)}
+                            >
+                              <Icon name="Folder" className="mr-2 h-4 w-4" />
+                              Файлы
+                            </Button>
+                            <Button variant="outline" size="sm" className="pixel-corners">
                               <Icon name="Settings" className="mr-2 h-4 w-4" />
-                              Настройки
                             </Button>
                           </>
                         )}
@@ -470,6 +495,101 @@ const Index = () => {
                   say
                 </Button>
               </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={filesOpen} onOpenChange={setFilesOpen}>
+        <DialogContent className="max-w-4xl pixel-corners">
+          <DialogHeader>
+            <DialogTitle className="font-pixel text-xl flex items-center gap-2">
+              <Icon name="Folder" className="h-5 w-5" />
+              Файловый менеджер
+            </DialogTitle>
+            <DialogDescription>
+              Управляй файлами и папками сервера
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 p-2 bg-muted rounded-lg pixel-corners">
+              <Icon name="HardDrive" className="h-4 w-4 text-muted-foreground" />
+              <span className="font-mono text-sm">{currentPath}</span>
+            </div>
+
+            <div className="border rounded-lg pixel-corners overflow-hidden">
+              <div className="bg-muted p-3 grid grid-cols-12 gap-4 text-xs font-semibold text-muted-foreground">
+                <div className="col-span-6">Имя</div>
+                <div className="col-span-2">Размер</div>
+                <div className="col-span-3">Изменён</div>
+                <div className="col-span-1">Действия</div>
+              </div>
+              
+              <ScrollArea className="h-[400px]">
+                {files.map((file, index) => (
+                  <div 
+                    key={index}
+                    className="p-3 grid grid-cols-12 gap-4 items-center hover:bg-muted/50 transition-colors border-b last:border-b-0"
+                  >
+                    <div className="col-span-6 flex items-center gap-2">
+                      {file.type === 'folder' ? (
+                        <Icon name="Folder" className="h-4 w-4 text-accent" />
+                      ) : (
+                        <Icon name="FileText" className="h-4 w-4 text-primary" />
+                      )}
+                      <span className="text-sm font-medium">{file.name}</span>
+                    </div>
+                    <div className="col-span-2 text-sm text-muted-foreground">
+                      {file.size}
+                    </div>
+                    <div className="col-span-3 text-sm text-muted-foreground">
+                      {file.modified}
+                    </div>
+                    <div className="col-span-1 flex gap-1">
+                      {file.type === 'file' && (
+                        <>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="h-7 w-7 p-0"
+                            onClick={() => toast.info(`Редактирование ${file.name}`)}
+                          >
+                            <Icon name="Pencil" className="h-3 w-3" />
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="h-7 w-7 p-0"
+                            onClick={() => toast.info(`Загрузка ${file.name}`)}
+                          >
+                            <Icon name="Download" className="h-3 w-3" />
+                          </Button>
+                        </>
+                      )}
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="h-7 w-7 p-0 text-destructive hover:text-destructive"
+                        onClick={() => toast.success(`${file.name} удалён`)}
+                      >
+                        <Icon name="Trash2" className="h-3 w-3" />
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </ScrollArea>
+            </div>
+
+            <div className="flex gap-2">
+              <Button className="pixel-corners minecraft-shadow flex-1">
+                <Icon name="Upload" className="mr-2 h-4 w-4" />
+                Загрузить файл
+              </Button>
+              <Button variant="outline" className="pixel-corners flex-1">
+                <Icon name="FolderPlus" className="mr-2 h-4 w-4" />
+                Создать папку
+              </Button>
             </div>
           </div>
         </DialogContent>
