@@ -5,6 +5,8 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
 import Icon from '@/components/ui/icon';
 import { toast } from 'sonner';
 
@@ -38,6 +40,15 @@ const Index = () => {
   const [serverName, setServerName] = useState('');
   const [selectedVersion, setSelectedVersion] = useState('1.20.4');
   const [selectedBuild, setSelectedBuild] = useState('Vanilla');
+  const [consoleOpen, setConsoleOpen] = useState(false);
+  const [currentServerId, setCurrentServerId] = useState<string | null>(null);
+  const [consoleCommand, setConsoleCommand] = useState('');
+  const [consoleLog, setConsoleLog] = useState<string[]>([
+    '[Server] Starting Minecraft server...',
+    '[Server] Loading world...',
+    '[Server] Server started successfully!',
+    '[Server] Ready for players on port 25565'
+  ]);
 
   const createServer = () => {
     if (!serverName.trim()) {
@@ -95,7 +106,35 @@ const Index = () => {
   };
 
   const openConsole = (serverId: string) => {
-    toast.info('Консоль сервера открывается...');
+    setCurrentServerId(serverId);
+    setConsoleOpen(true);
+  };
+
+  const executeCommand = () => {
+    if (!consoleCommand.trim()) return;
+    
+    const newLog = [...consoleLog];
+    newLog.push(`> ${consoleCommand}`);
+    
+    if (consoleCommand === 'help') {
+      newLog.push('[Server] Available commands: stop, list, say, tp, gamemode');
+    } else if (consoleCommand === 'list') {
+      newLog.push('[Server] Online players: 3/2999');
+    } else if (consoleCommand.startsWith('say ')) {
+      const message = consoleCommand.substring(4);
+      newLog.push(`[Server] Broadcast: ${message}`);
+    } else {
+      newLog.push('[Server] Command executed');
+    }
+    
+    setConsoleLog(newLog);
+    setConsoleCommand('');
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      executeCommand();
+    }
   };
 
   return (
@@ -352,6 +391,89 @@ const Index = () => {
           <p>MineCraft Host • Создавай серверы и играй с друзьями 🎮</p>
         </footer>
       </div>
+
+      <Dialog open={consoleOpen} onOpenChange={setConsoleOpen}>
+        <DialogContent className="max-w-3xl pixel-corners">
+          <DialogHeader>
+            <DialogTitle className="font-pixel text-xl flex items-center gap-2">
+              <Icon name="Terminal" className="h-5 w-5" />
+              Консоль сервера
+            </DialogTitle>
+            <DialogDescription>
+              Управляй сервером через командную строку
+            </DialogDescription>
+          </DialogHeader>
+          
+          <div className="space-y-4">
+            <ScrollArea className="h-[400px] w-full rounded-lg border bg-black p-4">
+              <div className="font-mono text-sm space-y-1">
+                {consoleLog.map((line, index) => (
+                  <div 
+                    key={index} 
+                    className={`${
+                      line.startsWith('>')
+                        ? 'text-primary font-semibold'
+                        : line.includes('ERROR')
+                        ? 'text-destructive'
+                        : line.includes('SUCCESS') || line.includes('started')
+                        ? 'text-primary'
+                        : 'text-green-400'
+                    }`}
+                  >
+                    {line}
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+            
+            <div className="flex gap-2">
+              <Input
+                placeholder="Введи команду (например: list, help, say привет)..."
+                value={consoleCommand}
+                onChange={(e) => setConsoleCommand(e.target.value)}
+                onKeyPress={handleKeyPress}
+                className="font-mono pixel-corners"
+              />
+              <Button 
+                onClick={executeCommand}
+                className="pixel-corners minecraft-shadow"
+              >
+                <Icon name="Send" className="h-4 w-4" />
+              </Button>
+            </div>
+
+            <div className="bg-muted p-3 rounded-lg pixel-corners">
+              <p className="text-xs text-muted-foreground mb-2 font-pixel">Популярные команды:</p>
+              <div className="flex flex-wrap gap-2">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="pixel-corners text-xs"
+                  onClick={() => setConsoleCommand('list')}
+                >
+                  list
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="pixel-corners text-xs"
+                  onClick={() => setConsoleCommand('help')}
+                >
+                  help
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="pixel-corners text-xs"
+                  onClick={() => setConsoleCommand('say Добро пожаловать!')}
+                >
+                  say
+                </Button>
+              </div>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
