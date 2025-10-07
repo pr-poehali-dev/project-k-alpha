@@ -31,7 +31,7 @@ const Index = () => {
       status: 'online',
       players: 3,
       maxPlayers: 2999,
-      plan: 'Бесплатный',
+      plan: 'Pro',
       ip: 'mc.server-1.ru:25565',
       build: 'Vanilla'
     }
