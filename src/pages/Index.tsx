@@ -29,7 +29,7 @@ const Index = () => {
       name: 'Мой сервер выживания',
       version: '1.19.4',
       status: 'online',
-      players: 3,
+      players: 2999,
       maxPlayers: 99999,
       plan: 'Unlimited',
       ip: 'mc.EzFunTimeEz.ru',
@@ -43,6 +43,7 @@ const Index = () => {
   const [customBuildUrl, setCustomBuildUrl] = useState('');
   const [consoleOpen, setConsoleOpen] = useState(false);
   const [filesOpen, setFilesOpen] = useState(false);
+  const [pluginsOpen, setPluginsOpen] = useState(false);
   const [currentServerId, setCurrentServerId] = useState<string | null>(null);
   const [consoleCommand, setConsoleCommand] = useState('');
   const [consoleLog, setConsoleLog] = useState<string[]>([
@@ -127,6 +128,26 @@ const Index = () => {
     setFilesOpen(true);
     setCurrentPath('/');
   };
+
+  const openPlugins = (serverId: string) => {
+    setCurrentServerId(serverId);
+    setPluginsOpen(true);
+  };
+
+  const [installedPlugins] = useState([
+    { name: 'EssentialsX', version: '2.20.1', enabled: true, description: 'Основные команды и функции' },
+    { name: 'WorldEdit', version: '7.2.15', enabled: true, description: 'Редактор мира' },
+    { name: 'LuckPerms', version: '5.4.102', enabled: true, description: 'Система прав' }
+  ]);
+
+  const [availablePlugins] = useState([
+    { name: 'Vault', version: '1.7.3', downloads: '15M', description: 'Экономика и права' },
+    { name: 'ProtocolLib', version: '5.1.0', downloads: '12M', description: 'Библиотека для плагинов' },
+    { name: 'WorldGuard', version: '7.0.9', downloads: '10M', description: 'Защита регионов' },
+    { name: 'Citizens', version: '2.0.33', downloads: '8M', description: 'NPC система' },
+    { name: 'Multiverse-Core', version: '4.3.1', downloads: '7M', description: 'Мультимиры' },
+    { name: 'mcMMO', version: '2.1.220', downloads: '6M', description: 'RPG навыки' }
+  ]);
 
   const executeCommand = () => {
     if (!consoleCommand.trim()) return;
@@ -414,6 +435,15 @@ const Index = () => {
                             >
                               <Icon name="Folder" className="mr-2 h-4 w-4" />
                               Файлы
+                            </Button>
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              className="pixel-corners"
+                              onClick={() => openPlugins(server.id)}
+                            >
+                              <Icon name="Puzzle" className="mr-2 h-4 w-4" />
+                              Плагины
                             </Button>
                             <Button variant="outline" size="sm" className="pixel-corners">
                               <Icon name="Settings" className="mr-2 h-4 w-4" />
@@ -932,6 +962,118 @@ const Index = () => {
               </div>
             </div>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={pluginsOpen} onOpenChange={setPluginsOpen}>
+        <DialogContent className="max-w-4xl max-h-[80vh] pixel-corners">
+          <DialogHeader>
+            <DialogTitle className="font-pixel flex items-center gap-2">
+              <Icon name="Puzzle" className="h-5 w-5" />
+              Менеджер плагинов
+            </DialogTitle>
+            <DialogDescription>
+              Установка и управление плагинами сервера
+            </DialogDescription>
+          </DialogHeader>
+
+          <Tabs defaultValue="installed" className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="installed" className="font-pixel text-xs">
+                Установленные ({installedPlugins.length})
+              </TabsTrigger>
+              <TabsTrigger value="browse" className="font-pixel text-xs">
+                Каталог плагинов
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="installed" className="mt-4">
+              <ScrollArea className="h-[400px] pr-4">
+                <div className="space-y-3">
+                  {installedPlugins.map((plugin, index) => (
+                    <Card key={index} className="pixel-corners bg-muted/30">
+                      <CardContent className="p-4">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <h3 className="font-pixel text-sm">{plugin.name}</h3>
+                              <Badge variant="outline" className="text-xs">
+                                v{plugin.version}
+                              </Badge>
+                              <Badge 
+                                variant={plugin.enabled ? "default" : "secondary"} 
+                                className="text-xs"
+                              >
+                                {plugin.enabled ? 'Вкл.' : 'Выкл.'}
+                              </Badge>
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                              {plugin.description}
+                            </p>
+                          </div>
+                          <div className="flex gap-2 ml-4">
+                            <Button size="sm" variant="outline" className="pixel-corners text-xs">
+                              <Icon name="Settings" className="h-3 w-3" />
+                            </Button>
+                            <Button size="sm" variant="outline" className="pixel-corners text-xs">
+                              <Icon name="RefreshCw" className="h-3 w-3" />
+                            </Button>
+                            <Button size="sm" variant="destructive" className="pixel-corners text-xs">
+                              <Icon name="Trash2" className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </ScrollArea>
+            </TabsContent>
+
+            <TabsContent value="browse" className="mt-4">
+              <div className="mb-4">
+                <Input 
+                  placeholder="Поиск плагинов..." 
+                  className="pixel-corners"
+                />
+              </div>
+              <ScrollArea className="h-[350px] pr-4">
+                <div className="space-y-3">
+                  {availablePlugins.map((plugin, index) => (
+                    <Card key={index} className="pixel-corners bg-muted/30 hover:bg-muted/50 transition-colors">
+                      <CardContent className="p-4">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-1">
+                              <h3 className="font-pixel text-sm">{plugin.name}</h3>
+                              <Badge variant="outline" className="text-xs">
+                                v{plugin.version}
+                              </Badge>
+                              <span className="text-xs text-muted-foreground">
+                                <Icon name="Download" className="h-3 w-3 inline mr-1" />
+                                {plugin.downloads}
+                              </span>
+                            </div>
+                            <p className="text-xs text-muted-foreground">
+                              {plugin.description}
+                            </p>
+                          </div>
+                          <Button 
+                            size="sm" 
+                            className="pixel-corners text-xs ml-4"
+                            onClick={() => toast.success(`Плагин ${plugin.name} установлен!`)}
+                          >
+                            <Icon name="Download" className="mr-1 h-3 w-3" />
+                            Установить
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </ScrollArea>
+            </TabsContent>
+          </Tabs>
         </DialogContent>
       </Dialog>
 
