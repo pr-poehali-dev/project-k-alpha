@@ -34,7 +34,7 @@ const Index = () => {
       players: 2999,
       maxPlayers: 7500,
       plan: 'Unlimited',
-      ip: 'mc.EzFunTimeEz.ru',
+      ip: 'mc.EzFunTimeEz.ru:25565',
       build: 'Spigot'
     }
   ]);
