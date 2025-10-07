@@ -196,7 +196,7 @@ const ServerControl = () => {
         </div>
 
         <Tabs defaultValue="overview" className="space-y-4">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="overview" className="font-pixel text-xs md:text-sm">
               <Icon name="LayoutDashboard" className="mr-2 h-4 w-4" />
               Обзор
@@ -213,6 +213,12 @@ const ServerControl = () => {
               <Icon name="Terminal" className="mr-2 h-4 w-4" />
               Консоль
             </TabsTrigger>
+            {server.plan === 'ВСЁ или НИЧЕГО' && (
+              <TabsTrigger value="custom" className="font-pixel text-xs md:text-sm">
+                <Icon name="Sparkles" className="mr-2 h-4 w-4" />
+                VIP
+              </TabsTrigger>
+            )}
           </TabsList>
 
           <TabsContent value="overview">
@@ -472,6 +478,258 @@ const ServerControl = () => {
               </CardContent>
             </Card>
           </TabsContent>
+
+          {server.plan === 'ВСЁ или НИЧЕГО' && (
+            <TabsContent value="custom">
+              <div className="grid gap-4">
+                <Card className="pixel-corners minecraft-shadow border-4 border-primary">
+                  <CardHeader>
+                    <div className="flex items-center gap-2">
+                      <Icon name="Crown" className="h-6 w-6 text-yellow-500" />
+                      <CardTitle className="font-pixel text-2xl">⭐ VIP Кастомные настройки</CardTitle>
+                    </div>
+                    <CardDescription>
+                      Эксклюзивные возможности для тарифа "ВСЁ или НИЧЕГО"
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      <Card className="pixel-corners bg-gradient-to-br from-yellow-500/10 to-orange-500/10 border-yellow-500/50">
+                        <CardHeader>
+                          <CardTitle className="text-sm font-pixel flex items-center gap-2">
+                            <Icon name="Zap" className="h-4 w-4 text-yellow-500" />
+                            Выделенный IP
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-2">
+                            <Input 
+                              placeholder="Введи свой IP"
+                              className="pixel-corners text-xs"
+                            />
+                            <Button 
+                              size="sm" 
+                              className="w-full pixel-corners text-xs"
+                              onClick={() => toast.success('IP адрес настроен!')}
+                            >
+                              Применить
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="pixel-corners bg-gradient-to-br from-purple-500/10 to-pink-500/10 border-purple-500/50">
+                        <CardHeader>
+                          <CardTitle className="text-sm font-pixel flex items-center gap-2">
+                            <Icon name="Shield" className="h-4 w-4 text-purple-500" />
+                            Приватный доступ
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-2">
+                            <Input 
+                              placeholder="Белый список игроков"
+                              className="pixel-corners text-xs"
+                            />
+                            <Button 
+                              size="sm" 
+                              className="w-full pixel-corners text-xs"
+                              onClick={() => toast.success('Белый список обновлен!')}
+                            >
+                              Сохранить
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="pixel-corners bg-gradient-to-br from-green-500/10 to-emerald-500/10 border-green-500/50">
+                        <CardHeader>
+                          <CardTitle className="text-sm font-pixel flex items-center gap-2">
+                            <Icon name="Database" className="h-4 w-4 text-green-500" />
+                            Автобэкапы
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-2">
+                            <select className="w-full p-2 rounded pixel-corners text-xs bg-background border">
+                              <option>Каждые 30 минут</option>
+                              <option>Каждый час</option>
+                              <option>Каждые 3 часа</option>
+                              <option>Каждые 6 часов</option>
+                            </select>
+                            <Button 
+                              size="sm" 
+                              className="w-full pixel-corners text-xs"
+                              onClick={() => toast.success('Расписание бэкапов настроено!')}
+                            >
+                              Настроить
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="pixel-corners bg-gradient-to-br from-blue-500/10 to-cyan-500/10 border-blue-500/50">
+                        <CardHeader>
+                          <CardTitle className="text-sm font-pixel flex items-center gap-2">
+                            <Icon name="Cpu" className="h-4 w-4 text-blue-500" />
+                            CPU приоритет
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-2">
+                            <select className="w-full p-2 rounded pixel-corners text-xs bg-background border">
+                              <option>90% (Максимум)</option>
+                              <option>75% (Высокий)</option>
+                              <option>50% (Средний)</option>
+                            </select>
+                            <Button 
+                              size="sm" 
+                              className="w-full pixel-corners text-xs"
+                              onClick={() => toast.success('Приоритет CPU изменен!')}
+                            >
+                              Применить
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="pixel-corners bg-gradient-to-br from-red-500/10 to-rose-500/10 border-red-500/50">
+                        <CardHeader>
+                          <CardTitle className="text-sm font-pixel flex items-center gap-2">
+                            <Icon name="Flame" className="h-4 w-4 text-red-500" />
+                            DDoS защита Pro
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-2">
+                            <select className="w-full p-2 rounded pixel-corners text-xs bg-background border">
+                              <option>Максимальная</option>
+                              <option>Высокая</option>
+                              <option>Средняя</option>
+                            </select>
+                            <Button 
+                              size="sm" 
+                              className="w-full pixel-corners text-xs"
+                              onClick={() => toast.success('Уровень защиты установлен!')}
+                            >
+                              Сохранить
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+
+                      <Card className="pixel-corners bg-gradient-to-br from-indigo-500/10 to-violet-500/10 border-indigo-500/50">
+                        <CardHeader>
+                          <CardTitle className="text-sm font-pixel flex items-center gap-2">
+                            <Icon name="Globe" className="h-4 w-4 text-indigo-500" />
+                            Свой домен
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <div className="space-y-2">
+                            <Input 
+                              placeholder="mc.yourdomain.ru"
+                              className="pixel-corners text-xs"
+                            />
+                            <Button 
+                              size="sm" 
+                              className="w-full pixel-corners text-xs"
+                              onClick={() => toast.success('Домен привязан к серверу!')}
+                            >
+                              Привязать
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="pixel-corners minecraft-shadow border-2 border-yellow-500/50">
+                  <CardHeader>
+                    <CardTitle className="font-pixel flex items-center gap-2">
+                      <Icon name="Settings" className="h-5 w-5" />
+                      🎮 Расширенные настройки сервера
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Максимум игроков</label>
+                        <Input 
+                          type="number" 
+                          defaultValue="999"
+                          className="pixel-corners"
+                          onChange={(e) => toast.success(`Лимит игроков: ${e.target.value}`)}
+                        />
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Сложность</label>
+                        <select className="w-full p-2 rounded pixel-corners bg-background border">
+                          <option>Мирная</option>
+                          <option>Легкая</option>
+                          <option>Нормальная</option>
+                          <option>Сложная</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">Игровой режим</label>
+                        <select className="w-full p-2 rounded pixel-corners bg-background border">
+                          <option>Выживание</option>
+                          <option>Творчество</option>
+                          <option>Приключения</option>
+                          <option>Наблюдатель</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="text-sm font-medium mb-2 block">PvP режим</label>
+                        <select className="w-full p-2 rounded pixel-corners bg-background border">
+                          <option>Включен</option>
+                          <option>Выключен</option>
+                        </select>
+                      </div>
+                    </div>
+                    <Button 
+                      className="w-full mt-4 pixel-corners minecraft-shadow"
+                      onClick={() => toast.success('Настройки сервера сохранены!')}
+                    >
+                      💾 Сохранить все настройки
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                <Card className="pixel-corners minecraft-shadow">
+                  <CardHeader>
+                    <CardTitle className="font-pixel flex items-center gap-2">
+                      <Icon name="Phone" className="h-5 w-5" />
+                      📞 VIP Поддержка 24/7
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <p className="text-sm text-muted-foreground">
+                        Как VIP клиент, у тебя есть доступ к персональному менеджеру. Мы ответим в течение 5 минут!
+                      </p>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <Button variant="outline" className="pixel-corners">
+                          <Icon name="MessageCircle" className="h-4 w-4 mr-2" />
+                          Telegram
+                        </Button>
+                        <Button variant="outline" className="pixel-corners">
+                          <Icon name="Phone" className="h-4 w-4 mr-2" />
+                          Позвонить
+                        </Button>
+                        <Button variant="outline" className="pixel-corners">
+                          <Icon name="Mail" className="h-4 w-4 mr-2" />
+                          Email
+                        </Button>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </TabsContent>
+          )}
         </Tabs>
       </div>
     </div>
