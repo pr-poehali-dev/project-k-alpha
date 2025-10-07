@@ -32,7 +32,7 @@ const Index = () => {
       players: 3,
       maxPlayers: 99999,
       plan: 'Unlimited',
-      ip: 'mc.server-1.ru:25565',
+      ip: 'play.myserver.ru',
       build: 'Vanilla'
     }
   ]);
