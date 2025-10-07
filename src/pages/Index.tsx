@@ -30,8 +30,8 @@ const Index = () => {
       version: '1.20.4',
       status: 'online',
       players: 3,
-      maxPlayers: 2999,
-      plan: 'Pro',
+      maxPlayers: 99999,
+      plan: 'Unlimited',
       ip: 'mc.server-1.ru:25565',
       build: 'Vanilla'
     }
@@ -446,7 +446,7 @@ const Index = () => {
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                     <Card className="pixel-corners border-2 border-muted hover:border-primary transition-all">
                       <CardHeader>
                         <div className="text-4xl mb-2">🎁</div>
@@ -559,6 +559,52 @@ const Index = () => {
                         </div>
                         <Button variant="outline" className="w-full pixel-corners mt-4">
                           Перейти на Premium
+                        </Button>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="pixel-corners border-2 border-yellow-500 minecraft-shadow relative overflow-hidden">
+                      <div className="absolute top-0 right-0 bg-yellow-500 text-black px-3 py-1 text-xs font-pixel">
+                        ⭐ VIP
+                      </div>
+                      <CardHeader>
+                        <div className="text-4xl mb-2">♾️</div>
+                        <CardTitle className="font-pixel text-lg">Unlimited</CardTitle>
+                        <CardDescription className="text-2xl font-bold mt-2">999 ₽/мес</CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <div className="space-y-2 text-sm">
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>Безлимит игроков</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>16 GB RAM</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>100 GB NVMe диск</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>Персональная поддержка</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>Бэкапы каждый час</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>Выделенный сервер</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>Все дополнения бесплатно</span>
+                          </div>
+                        </div>
+                        <Button variant="outline" className="w-full pixel-corners mt-4" disabled>
+                          Текущий план
                         </Button>
                       </CardContent>
                     </Card>
