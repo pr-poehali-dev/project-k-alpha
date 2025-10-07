@@ -209,7 +209,7 @@ const Index = () => {
         </div>
 
         <Tabs defaultValue="create" className="max-w-4xl mx-auto">
-          <TabsList className="grid w-full grid-cols-3 mb-8">
+          <TabsList className="grid w-full grid-cols-4 mb-8">
             <TabsTrigger value="create" className="font-pixel text-xs md:text-sm">
               <Icon name="Plus" className="mr-2 h-4 w-4" />
               Создать
@@ -217,6 +217,10 @@ const Index = () => {
             <TabsTrigger value="servers" className="font-pixel text-xs md:text-sm">
               <Icon name="Server" className="mr-2 h-4 w-4" />
               Серверы ({servers.length})
+            </TabsTrigger>
+            <TabsTrigger value="shop" className="font-pixel text-xs md:text-sm">
+              <Icon name="ShoppingCart" className="mr-2 h-4 w-4" />
+              Магазин
             </TabsTrigger>
             <TabsTrigger value="stats" className="font-pixel text-xs md:text-sm">
               <Icon name="BarChart3" className="mr-2 h-4 w-4" />
@@ -429,6 +433,238 @@ const Index = () => {
                   </Card>
                 ))
               )}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="shop">
+            <div className="space-y-6">
+              <Card className="pixel-corners minecraft-shadow">
+                <CardHeader>
+                  <CardTitle className="font-pixel text-xl">🛒 Тарифы хостинга</CardTitle>
+                  <CardDescription>
+                    Выбери подходящий тариф для своего сервера
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <Card className="pixel-corners border-2 border-muted hover:border-primary transition-all">
+                      <CardHeader>
+                        <div className="text-4xl mb-2">🎁</div>
+                        <CardTitle className="font-pixel text-lg">Бесплатный</CardTitle>
+                        <CardDescription className="text-2xl font-bold mt-2">0 ₽/мес</CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <div className="space-y-2 text-sm">
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>До 2999 игроков</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>2 GB RAM</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>10 GB диск</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>DDoS защита</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>24/7 онлайн</span>
+                          </div>
+                        </div>
+                        <Button variant="outline" className="w-full pixel-corners mt-4" disabled>
+                          Текущий план
+                        </Button>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="pixel-corners border-2 border-primary minecraft-shadow relative overflow-hidden">
+                      <div className="absolute top-0 right-0 bg-primary text-primary-foreground px-3 py-1 text-xs font-pixel">
+                        ПОПУЛЯРНЮ
+                      </div>
+                      <CardHeader>
+                        <div className="text-4xl mb-2">🚀</div>
+                        <CardTitle className="font-pixel text-lg">Pro</CardTitle>
+                        <CardDescription className="text-2xl font-bold mt-2">299 ₽/мес</CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <div className="space-y-2 text-sm">
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>Безлимит игроков</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>4 GB RAM</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>25 GB SSD диск</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>Приоритет поддержка</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>Автобэкапы каждые 6ч</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>Свой домен</span>
+                          </div>
+                        </div>
+                        <Button className="w-full pixel-corners minecraft-shadow mt-4">
+                          Перейти на Pro
+                        </Button>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="pixel-corners border-2 border-accent hover:border-accent/70 transition-all">
+                      <CardHeader>
+                        <div className="text-4xl mb-2">🔥</div>
+                        <CardTitle className="font-pixel text-lg">Premium</CardTitle>
+                        <CardDescription className="text-2xl font-bold mt-2">599 ₽/мес</CardDescription>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <div className="space-y-2 text-sm">
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>Безлимит игроков</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>8 GB RAM</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>50 GB NVMe диск</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>VIP поддержка</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>Бэкапы каждые 3ч</span>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Icon name="Check" className="h-4 w-4 text-primary mt-0.5" />
+                            <span>Выделенный IP</span>
+                          </div>
+                        </div>
+                        <Button variant="outline" className="w-full pixel-corners mt-4">
+                          Перейти на Premium
+                        </Button>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card className="pixel-corners minecraft-shadow">
+                <CardHeader>
+                  <CardTitle className="font-pixel text-xl">📦 Дополнения</CardTitle>
+                  <CardDescription>
+                    Улучши свой сервер дополнительными функциями
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Card className="pixel-corners bg-muted/50">
+                      <CardContent className="p-4">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="text-2xl">🛡️</div>
+                              <h3 className="font-pixel text-sm">Anti-DDoS Pro</h3>
+                            </div>
+                            <p className="text-xs text-muted-foreground mb-3">
+                              Усиленная защита от атак
+                            </p>
+                            <div className="flex items-center justify-between">
+                              <span className="font-bold">99 ₽/мес</span>
+                              <Button size="sm" variant="outline" className="pixel-corners text-xs">
+                                Купить
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="pixel-corners bg-muted/50">
+                      <CardContent className="p-4">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="text-2xl">💾</div>
+                              <h3 className="font-pixel text-sm">Доп. хранилище</h3>
+                            </div>
+                            <p className="text-xs text-muted-foreground mb-3">
+                              +25 GB дискового пространства
+                            </p>
+                            <div className="flex items-center justify-between">
+                              <span className="font-bold">49 ₽/мес</span>
+                              <Button size="sm" variant="outline" className="pixel-corners text-xs">
+                                Купить
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="pixel-corners bg-muted/50">
+                      <CardContent className="p-4">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="text-2xl">🌐</div>
+                              <h3 className="font-pixel text-sm">Свой домен</h3>
+                            </div>
+                            <p className="text-xs text-muted-foreground mb-3">
+                              play.yourdomain.ru
+                            </p>
+                            <div className="flex items-center justify-between">
+                              <span className="font-bold">149 ₽/мес</span>
+                              <Button size="sm" variant="outline" className="pixel-corners text-xs">
+                                Купить
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+
+                    <Card className="pixel-corners bg-muted/50">
+                      <CardContent className="p-4">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-2">
+                              <div className="text-2xl">⚡</div>
+                              <h3 className="font-pixel text-sm">Ускорение CPU</h3>
+                            </div>
+                            <p className="text-xs text-muted-foreground mb-3">
+                              +50% производительности
+                            </p>
+                            <div className="flex items-center justify-between">
+                              <span className="font-bold">199 ₽/мес</span>
+                              <Button size="sm" variant="outline" className="pixel-corners text-xs">
+                                Купить
+                              </Button>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </TabsContent>
 
